@@ -1,0 +1,23 @@
+{
+  "id": "example-miner",
+  "name": "Example Miner",
+  "version": "1.0.0",
+  "description": "Example only; do not add this entry to catalog.json.",
+  "hardware": ["CPU"],
+  "license": "Specify the actual license",
+  "source_url": "https://github.com/example/miner",
+  "package_url": "https://github.com/example/miner/releases/download/v1.0.0/miner-linux.tar.gz",
+  "executable_name": "miner",
+  "executable_sha256": "replace-with-the-64-character-sha256-of-the-extracted-executable",
+  "default_arguments": [
+    "--pool",
+    "{POOL}",
+    "--wallet",
+    "{WALLET}.{WORKER}",
+    "--password",
+    "{PASSWORD}",
+    "--algorithm",
+    "{ALGORITHM}"
+  ],
+  "recommended_algorithm": "examplehash"
+}
