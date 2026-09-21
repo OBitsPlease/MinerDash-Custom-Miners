@@ -31,6 +31,21 @@
         "default_arguments",
         "recommended_algorithm"
       ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "package_format": {
+                "const": "tar.gz"
+              }
+            },
+            "required": ["package_format"]
+          },
+          "then": {
+            "required": ["entry_point", "package_sha256"]
+          }
+        }
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -74,6 +89,33 @@
         "executable_sha256": {
           "type": "string",
           "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "package_format": {
+          "enum": ["binary", "tar.gz"]
+        },
+        "package_sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "entry_point": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
+        },
+        "environment": {
+          "type": "object",
+          "propertyNames": {
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+          },
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "stats_type": {
+          "enum": ["", "xmrig", "miniz", "srbminer"]
+        },
+        "stats_url": {
+          "type": "string",
+          "pattern": "^http://(?:localhost|127\\.0\\.0\\.1|\\[::1\\])(?::[0-9]+)?/"
         },
         "default_arguments": {
           "type": "array",

@@ -15,14 +15,17 @@ The main Miner Dash application will be published at
    HTTPS URL, preferably an official GitHub release.
 2. Do not include wallets, credentials, worker names, private endpoints, or
    tracking identifiers.
-3. The archive must contain a self-contained executable whose basename exactly
-   matches `executable_name`.
-4. Calculate SHA-256 for the extracted executable, not the compressed archive,
-   and place it in `executable_sha256`.
-5. Use one argument per `default_arguments` array item.
-6. Document the upstream source, license, developer fee, supported hardware,
+3. Choose `package_format: "binary"` for a self-contained executable, or
+   `package_format: "tar.gz"` for a complete directory bundle.
+4. Set `executable_name` to the entry-point basename. For bundle packages, set
+   `entry_point` to its safe relative archive path and `package_sha256` to the
+   SHA-256 of the complete compressed archive.
+5. Calculate SHA-256 for the executable selected by `entry_point` and place it
+   in `executable_sha256`.
+6. Use one argument per `default_arguments` array item.
+7. Document the upstream source, license, developer fee, supported hardware,
    and algorithm.
-7. Submit the new entry for review. Do not edit or replace another developer's
+8. Submit the new entry for review. Do not edit or replace another developer's
    package.
 
 ## Supported placeholders
@@ -37,14 +40,19 @@ The main Miner Dash application will be published at
 
 ## Security and review
 
-Miner Dash downloads the package without running installer scripts, extracts
-only `executable_name`, calculates its SHA-256, and rejects the installation if
-it differs from `executable_sha256`.
+Miner Dash downloads packages without running installer scripts. Binary mode
+extracts only `executable_name`. Bundle mode preserves regular files and
+directories, rejects absolute paths, traversal, links, devices, and oversized
+content, then launches only `entry_point`. It verifies both `package_sha256` and
+`executable_sha256` and rolls back the complete installed directory when a new
+version fails to start.
 
 Reviewers must verify package provenance, licensing, executable behavior,
 network destinations, developer fees, and the submitted hash before merging an
 entry into `catalog.json`.
 
-Multi-file packages that require bundled libraries, helper programs, or shell
-callbacks are not accepted by schema version 1. They require a reviewed native
-Miner Dash adapter.
+Bundle entries may define environment variables and one supported local
+statistics endpoint with `environment`, `stats_type`, and `stats_url`.
+Hive-specific configuration, run, statistics, and supervisor callbacks are
+never executed. A reviewer must translate those behaviors into native Miner
+Dash arguments, environment settings, and statistics configuration.
