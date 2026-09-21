@@ -5,6 +5,10 @@ integrations. Every Miner Dash controller periodically reads `catalog.json`.
 Approved entries automatically appear under **Miner Dash community miners** in
 the Custom Miner Lab and Flight Sheet miner lists.
 
+The main Miner Dash application will be published at
+[OBitsPlease/Miner-Dash](https://github.com/OBitsPlease/Miner-Dash) when version
+1.0 is ready.
+
 ## Submission requirements
 
 1. Host the original Linux executable or `.tar.gz` package at a stable public
